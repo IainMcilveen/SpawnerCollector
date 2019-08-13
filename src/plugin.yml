@@ -1,0 +1,5 @@
+name: SpawnerCollector
+version: 1.0
+main: com.iain.spawnercollector.Main
+api-version: 1.14
+commands:

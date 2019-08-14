@@ -31,16 +31,13 @@ public class EventHandle implements Listener {
 	@EventHandler
 	public void startBreaking(PlayerInteractEvent event) {
 		
-		System.out.println("stage 1");
 		if (event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.SPAWNER) {
 			Player player = event.getPlayer();
-			System.out.println("stage 2");
 			//checking lore to see item
 			List<String> itemLore = player.getInventory().getItemInMainHand().getItemMeta().getLore();
 			String loreSentence = itemLore.get(1);
 			
 			if (loreSentence.equals("Can be used to break spawners.")) {
-				System.out.println("stage 3");
 	
 				//dealing with the block
 				Block block = event.getClickedBlock();
@@ -60,7 +57,11 @@ public class EventHandle implements Listener {
 				List<String> lore = playerCrowbarMeta.getLore();
 				System.out.println(lore);
 				String usesBeforeParse = lore.get(3);
-				int usesLeft = Integer.parseInt(usesBeforeParse.substring(usesBeforeParse.length()-1));
+				
+				//needs better parsing, so you can have a durablitiy greater than 1 digit in length
+				
+				int usesLeft = Integer.parseInt(usesBeforeParse.substring(usesBeforeParse.length()-1))-1;
+				
 				if(usesLeft < 1) {
 					player.getInventory().remove(playerCrowbar);
 				}else {

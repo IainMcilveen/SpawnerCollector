@@ -58,7 +58,7 @@ public class EventHandle implements Listener {
 				List<String> lore = playerCrowbarMeta.getLore();
 				String usesBeforeParse = lore.get(3);
 				
-				//needs better parsing, so you can have a durablitiy greater than 1 digit in length
+				//parsing uses from lore
 				char[] chars = usesBeforeParse.toCharArray();
 				int passedSpaces = 2;
 				String usesBeforeString = "";
@@ -73,6 +73,7 @@ public class EventHandle implements Listener {
 					
 				int usesLeft = Integer.parseInt(usesBeforeString)-1;
 				
+				//setting new uses or removing
 				if(usesLeft < 1) {
 					player.getInventory().remove(playerCrowbar);
 				}else {
@@ -80,7 +81,7 @@ public class EventHandle implements Listener {
 					playerCrowbarMeta.setLore(lore);
 					playerCrowbar.setItemMeta(playerCrowbarMeta);
 				}
-				//getting the uses before
+				
 				
 			}
 		}

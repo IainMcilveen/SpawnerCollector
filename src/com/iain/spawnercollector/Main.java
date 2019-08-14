@@ -32,6 +32,9 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		
+		Bukkit.getPluginManager().registerEvents(new EventHandle(this), this);
+		
+		
 		CommandHandle commandhandle = new CommandHandle();
 		this.getCommand("crowbar").setExecutor(commandhandle);
 

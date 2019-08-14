@@ -1,5 +1,9 @@
 package com.iain.spawnercollector;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -26,10 +30,19 @@ public class EventHandle implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void startBreaking(PlayerInteractEvent event) {
+		
+		System.out.println("stage 1");
 		if (event.getAction() == Action.LEFT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.SPAWNER) {
-
 			Player player = event.getPlayer();
-			if (player.getInventory().getItemInMainHand().isSimilar(Main.crowbar)) {
+			System.out.println("stage 2");
+			//checking lore to see item
+			List<String> itemLore = player.getInventory().getItemInMainHand().getItemMeta().getLore();
+			String loreSentence = itemLore.get(1);
+			
+			if (loreSentence.equals("Can be used to break spawners.")) {
+				System.out.println("stage 3");
+	
+				//dealing with the block
 				Block block = event.getClickedBlock();
 				CreatureSpawner spawner = (CreatureSpawner) block.getState();
 				EntityType type = spawner.getSpawnedType();
@@ -40,6 +53,23 @@ public class EventHandle implements Listener {
 				item.setItemMeta(meta);
 				block.breakNaturally();
 				spawner.getWorld().dropItem(spawner.getLocation(), item);
+				
+				//decreasing the uses
+				ItemStack playerCrowbar = player.getInventory().getItemInMainHand();
+				ItemMeta playerCrowbarMeta = playerCrowbar.getItemMeta();
+				List<String> lore = playerCrowbarMeta.getLore();
+				System.out.println(lore);
+				String usesBeforeParse = lore.get(3);
+				int usesLeft = Integer.parseInt(usesBeforeParse.substring(usesBeforeParse.length()-1));
+				if(usesLeft < 1) {
+					player.getInventory().remove(playerCrowbar);
+				}else {
+					lore.set(3,"Uses left: "+usesLeft);
+					playerCrowbarMeta.setLore(lore);
+					playerCrowbar.setItemMeta(playerCrowbarMeta);
+				}
+				//getting the uses before
+				
 			}
 		}
 	}

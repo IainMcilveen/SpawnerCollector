@@ -55,15 +55,12 @@ public class EventHandle implements Listener {
 			EntityType entity = EntityType
 					.fromName(item.getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.STRING));
 			CreatureSpawner state = (CreatureSpawner) block.getState();
-			state.setSpawnedType(entity);
-			state.update();
+			if(entity != null) {
+				state.setSpawnedType(entity);
+				state.update();
+			}
 		}
 	}
 
-	// event player animation event, see if the hand moving event holding the
-	// crowbar
-
-	// event for breaking blocks, specifically the spawner and the player holding
-	// the crowbar
 
 }

@@ -2,6 +2,7 @@ package com.iain.spawnercollector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -55,12 +56,22 @@ public class EventHandle implements Listener {
 				ItemStack playerCrowbar = player.getInventory().getItemInMainHand();
 				ItemMeta playerCrowbarMeta = playerCrowbar.getItemMeta();
 				List<String> lore = playerCrowbarMeta.getLore();
-				System.out.println(lore);
 				String usesBeforeParse = lore.get(3);
 				
 				//needs better parsing, so you can have a durablitiy greater than 1 digit in length
-				
-				int usesLeft = Integer.parseInt(usesBeforeParse.substring(usesBeforeParse.length()-1))-1;
+				char[] chars = usesBeforeParse.toCharArray();
+				int passedSpaces = 2;
+				String usesBeforeString = "";
+				for(char letter : chars) {
+					if(String.valueOf(letter).equals(" ")) {
+						passedSpaces -= 1;
+					}else if(passedSpaces == 0) {
+						usesBeforeString += String.valueOf(letter);
+					}
+					
+				}
+					
+				int usesLeft = Integer.parseInt(usesBeforeString)-1;
 				
 				if(usesLeft < 1) {
 					player.getInventory().remove(playerCrowbar);
